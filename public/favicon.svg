@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="100%" height="100%">
+  <!-- Fondo circular oscuro para resaltar en pestañas claras y oscuras del navegador -->
+  <circle cx="16" cy="16" r="16" fill="#0B0F19" />
+  
+  <!-- Núcleo o Red de IA (Pentágono Central Eléctrico) -->
+  <polygon points="16,10 21,14 19,20 13,20 11,14" fill="#00FF87" opacity="0.9"/>
+  
+  <!-- Estructura del Balón Clásico / Conexiones Tecnológicas -->
+  <g stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <!-- Líneas que conectan el centro con los bordes -->
+    <line x1="16" y1="10" x2="16" y2="4" />
+    <line x1="21" y1="14" x2="26" y2="11" />
+    <line x1="19" y1="20" x2="22" y2="26" />
+    <line x1="13" y1="20" x2="10" y2="26" />
+    <line x1="11" y1="14" x2="6" y2="11" />
+    
+    <!-- Contorno del Balón de Fútbol -->
+    <circle cx="16" cy="16" r="12" stroke-width="2" />
+  </g>
+  
+  <!-- Pequeño destello superior de Inteligencia -->
+  <circle cx="16" cy="4" r="1.5" fill="#00D2FF" />
+</svg>
