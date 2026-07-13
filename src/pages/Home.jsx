@@ -116,7 +116,7 @@ function Home() {
         Analiza brevemente cómo influyen los porcentajes elegidos por el usuario en las estadísticas de cada jugador y emite un veredicto definitivo declarando un ganador o un empate técnico muy bien argumentado. Mantén una redacción épica, profesional y emocionante. Termina mencionando que el análisis fue procesado de forma exitosa por los modelos generativos de Gemini.
       `;
 
-      // 3. Llamamos al modelo gemini-2.5-flash
+      // 3. Llamamos al modelo gemini-3-flash-preview
       const response = await ai.models.generateContent({
         model: 'gemini-3-flash-preview',
         contents: [{ text: promptContexto }],
