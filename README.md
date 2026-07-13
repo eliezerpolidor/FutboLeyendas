@@ -39,7 +39,6 @@ Desarrollar una aplicación web interactiva que permita a los usuarios preselecc
 ### Arquitectura de la Aplicación
 La aplicación sigue una arquitectura desacoplada basada en componentes reutilizables de React y un flujo de datos unidireccional:
 
-```text
 [ Interfaz de Usuario (React + CSS) ]
        │                ▲
        ▼                │ (Actualiza Estado)
