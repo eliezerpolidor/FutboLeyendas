@@ -1,11 +1,9 @@
-# TODO - Fix botón “GENERAR ANÁLISIS CON IA” (Pantalla 2)
+# TODO
 
-- [x] Revisar/ajustar el handler del botón en `src/pages/Home.jsx` para que dispare correctamente el análisis.
-
-- [x] Asegurar que el botón use siempre `contendiente1/contendiente2` válidos al momento del click.
-
-- [x] Actualizar estados (`cargandoAnalisis`, `veredictoIA`) para que se vea “PROCESANDO...” y luego el veredicto.
-
-- [x] Ejecutar lint/build o al menos `npm run dev` para validar.
+- [x] Validar API key disponible en `Home.jsx` (VITE_GEMINI_API_KEY) y mostrar error claro si falta.
+- [x] Mejorar manejo de respuesta de Gemini según el formato real del SDK (no asumir `response.text`).
+- [x] Mostrar el error real (`error.message`, `status`) en UI para diagnosticar.
+- [x] Actualizar `Home.jsx` con los cambios.
+- [ ] Ejecutar `npm run dev` y probar el botón “GENERAR ANÁLISIS CON IA”.
 
 

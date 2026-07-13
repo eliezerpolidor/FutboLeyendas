@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './home.css';
 import { LEYENDAS_BASE } from '../data/leyendas';
+import { GoogleGenAI } from '@google/genai';
 
 function Home() {
   // 1. Estados para controlar el valor de cada slider de forma independiente
@@ -67,29 +68,91 @@ function Home() {
   const contendiente2 = LEYENDAS_BASE.find(j => j.id === seleccionados[1]);
 
   // --- FUNCIÓN PARA GENERAR EL ANÁLISIS EN TIEMPO REAL ---
-  const manejarGenerarAnalisis = () => {
+  // --- FUNCIÓN PARA GENERAR EL ANÁLISIS EN TIEMPO REAL CON GEMINI REAL ---
+  const manejarGenerarAnalisis = async () => {
     if (!contendiente1 || !contendiente2) {
       setVeredictoIA("⚠️ Selecciona 2 jugadores para poder generar el análisis.");
       return;
     }
 
     setCargandoAnalisis(true);
-    setVeredictoIA("🧠 Gemini está analizando las trayectorias en el coliseo...");
+    setVeredictoIA("🧠 Gemini está analizando las trayectorias en el coliseo real...");
 
-    // Simulamos el tiempo de respuesta de la API (1.2 segundos de procesamiento visual)
-    setTimeout(() => {
-      // Determinamos cuál jugador tiene ventaja matemática según los sliders actuales
-      const scoreA = (contendiente1.stats.goleador * (goleador / 100)) + (contendiente1.stats.titulos * (titulos / 100));
-      const scoreB = (contendiente2.stats.goleador * (goleador / 100)) + (contendiente2.stats.titulos * (titulos / 100));
+    try {
+      // 1. Inicializamos el cliente usando la variable de entorno de Vite
+      const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
 
-      const ganadorMecanico = scoreA >= scoreB ? contendiente1.nombre : contendiente2.nombre;
-      const factorClave = goleador > titulos ? "su letalidad de cara al arco" : "su peso histórico en torneos mundiales";
+      if (!apiKey) {
+        setVeredictoIA(
+          "❌ Falta `VITE_GEMINI_API_KEY` en tu .env (.env.local). " +
+            "Reinicia el servidor luego de corregirlo."
+        );
+        return;
+      }
 
-      const resultadoFinal = `....Procesando métricas avanzadas bajo un entorno de IA. Evaluando un Poder Goleador del ${goleador}% y un despliegue en Títulos Mundiales del ${titulos}%. Tras cotejar el rendimiento histórico en el Olimpo del Fútbol, el choque entre ${contendiente1.nombre} y ${contendiente2.nombre} se inclina estratégicamente debido a las preferencias del usuario. Basado en que has priorizado el ataque con un ${goleador}%, la balanza analítica otorga un VERDICTO GENERAL A FAVOR DE ${ganadorMecanico}, respaldado principalmente por ${factorClave} y su efectividad bajo presión del ${presion}%. Análisis completado con éxito por Gemini.`;
+      const ai = new GoogleGenAI({ apiKey });
 
-      setVeredictoIA(resultadoFinal);
+      // 2. Creamos un prompt dinámico y estructurado enviándole todo el contexto deportivo
+      const promptContexto = `
+        Actúa como un experto e imparcial juez deportivo de fútbol histórico en un coliseo analítico.
+        Debes dar un veredicto final y detallado para un duelo entre dos leyendas.
+        
+        Criterios de evaluación elegidos por el usuario (ponderación de importancia):
+        - Poder Goleador: ${goleador}%
+        - Títulos Mundiales: ${titulos}%
+        - Juego Rápido y Disciplina: ${disciplina}%
+        - Efectividad Bajo Presión: ${presion}%
+
+        Contendiente 1:
+        - Nombre: ${contendiente1.nombre}
+        - Goles históricos: ${contendiente1.goles}
+        - Copas/Títulos importantes: ${contendiente1.copas}
+
+        Contendiente 2:
+        - Nombre: ${contendiente2.nombre}
+        - Goles históricos: ${contendiente2.goles}
+        - Copas/Títulos importantes: ${contendiente2.copas}
+
+        Analiza brevemente cómo influyen los porcentajes elegidos por el usuario en las estadísticas de cada jugador y emite un veredicto definitivo declarando un ganador o un empate técnico muy bien argumentado. Mantén una redacción épica, profesional y emocionante. Termina mencionando que el análisis fue procesado de forma exitosa por los modelos generativos de Gemini.
+      `;
+
+      // 3. Llamamos al modelo gemini-2.5-flash
+      const response = await ai.models.generateContent({
+        model: 'gemini-3-flash-preview',
+        contents: [{ text: promptContexto }],
+      });
+
+      // 4. Guardamos la respuesta real en el estado (soporta distintos formatos según SDK)
+      const text =
+        response?.text ??
+        response?.response?.text ??
+        response?.candidates?.[0]?.content?.parts?.map((p) => p?.text).join('') ??
+        "";
+
+      if (!text) {
+        setVeredictoIA(
+          "⚠️ Se recibió respuesta pero no se pudo extraer el texto. Revisa la consola para más detalles."
+        );
+        console.log('Respuesta completa de Gemini:', response);
+        return;
+      }
+
+      setVeredictoIA(text);
+
+    } catch (error) {
+      console.error("Error con Gemini API:", error);
+
+      const message = error?.message ? String(error.message) : 'Error desconocido';
+      const status = error?.status ? String(error.status) : '';
+
+      // No mostrar la API key (por seguridad). Solo el detalle del error.
+      setVeredictoIA(
+        `❌ Error Gemini: ${message}${status ? ` (status: ${status})` : ''}. ` +
+          "Verifica API key, permisos del modelo y conexión de red. Revisa consola (F12)."
+      );
+    } finally {
       setCargandoAnalisis(false);
-    }, 1200);
+    }
   };
 
   // --- RENDERING CONDICIONAL DE LAS PANTALLAS (PANTALLA 2 - COLISEO) ---
