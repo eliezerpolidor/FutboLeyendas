@@ -55,7 +55,7 @@ La aplicación sigue una arquitectura desacoplada basada en componentes reutiliz
 Esta es la vista inicial de la plataforma. Sirve como centro de mando dinámico para que el usuario configure las reglas del debate y examine a los candidatos antes del enfrentamiento.
 
 <p align="center">
-  <img src="src/assets/images/screenshots/olimpo.png" alt="Tablero del Olimpo - FutboLeyendas" width="800px">
+  <img src="public/olimpo.png" alt="Tablero del Olimpo - FutboLeyendas" width="800px">
 </p>
 
 *   **Sliders de Atributos Personales ("¿Qué define a tu jugador?"):** Cuatro deslizadores interactivos que permiten al usuario ponderar en tiempo real el valor que le otorga al **Poder Goleador**, **Títulos Mundiales**, **Juega Rápido / Disciplina** y **Efectividad Bajo Presión**.
@@ -69,7 +69,7 @@ Esta es la vista inicial de la plataforma. Sirve como centro de mando dinámico 
 Esta pantalla representa la arena de confrontación directa. Muestra visualmente el cara a cara de los dos futbolistas elegidos y procesa los datos bajo el criterio personalizado del usuario.
 
 <p align="center">
-  <img src="src/assets/images/screenshots/duelo.png" alt="Duelo de Leyendas y Veredicto Gemini" width="800px">
+  <img src="public/duelo.png" alt="Duelo de Leyendas y Veredicto Gemini" width="800px">
 </p>
 
 *   **Panel de Ponderación Activa:** Un indicador en la esquina superior izquierda que recuerda los porcentajes exactos que el usuario configuró en los sliders de la pantalla anterior.
