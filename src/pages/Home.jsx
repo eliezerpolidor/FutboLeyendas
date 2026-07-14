@@ -117,6 +117,7 @@ function Home() {
       `;
 
       // 3. Llamamos al modelo gemini-3-flash-preview
+      // para hacer el llamado a la api de gemini
       const response = await ai.models.generateContent({
         model: 'gemini-3-flash-preview',
         contents: [{ text: promptContexto }],
